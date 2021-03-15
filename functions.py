@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import datetime
@@ -64,6 +63,7 @@ def df_cleanup(df):
 
 # adds various technical indicators to dataframe
 def add_technicals(df):
+    df=df.copy()
     # first pass through all of the columns
     for c in df.columns:
         
@@ -154,7 +154,8 @@ def rsi_neg(x):
         return 0
 
 # function to calculate strength relative to market benchmarks passed
-def relative_strength(df,benchmarks=['SPY','DJI','DJT']):
+# must have more than one benchmark or it won't work for some reason...
+def relative_strength(df,benchmarks=['SPY','DJT']):
     # get start and end date
     df=df.copy()
     start=df['Date'].iloc[0]
@@ -183,3 +184,109 @@ def relative_strength(df,benchmarks=['SPY','DJI','DJT']):
                 df[rs]=df[rp]/df[sma_rp]
     
     return df
+
+# set target - returns 0 or 1 based on whether the stock went up 10% in next 10 days
+def set_target(df,n=10):
+    x=df.copy()
+    for c in x.columns:
+        if '_' not in c and 'Date' not in c:
+            # name columns to add
+            target=c+'_target'
+            target_gain=c+'_target_gains'
+            # add columns
+            x[target_gain]=(x[c].shift(-n)-x[c])/x[c]
+            x[target]=x[target_gain].apply(binary_target)
+    return x
+
+#supporting function for set_target
+def binary_target(x):
+    if x:
+        if x>0.05:
+            return 1
+        else:
+            return 0
+    else:
+        return 0
+
+# get only specified features
+# need to add a list of features and descriptions
+def get_features(df,features=[]):
+    x=df.copy()
+    cols=[]
+    stocks=[]
+    for c in x.columns:
+        if ('_' not in c 
+            and 'Date' not in c
+           and c!='SPY'
+           and c!='DJI'
+           and c!='DJT'):
+            stocks.append(c)
+
+    for f in features:
+        for c in x.columns:
+            if c[-len(f):]==f:
+                cols.append(c)  
+    return x[cols],stocks
+
+
+# gets a random sample of tickers and returns tuple containing list of train and test tickers
+def get_samples(file='TSX-Tickers.csv',exchange='.TO',n=50):
+    df=pd.read_csv(file)
+    total=df.sample(n)
+    n_train=int(n*.7)
+    n_test=n-n_train
+    train=total.head(n_train)
+    test=total.tail(n_test)
+    
+    return train['Symbol'].tolist(),test['Symbol'].tolist()
+
+# this function takes a dataset, removes unwanted featues and generates train set
+# takes a while to run, there may be a better way to do it
+def generate_trainset(df,features,n_period=30):
+    x=df.copy()
+    x,stocks=get_features(x,features)
+    
+    # for each stock in df
+    y_values=[]
+    x_values=[]
+    for s in stocks:
+        tempcol=[]
+        # get technical columns related to stock
+        for c in x.columns:
+            if c[:len(s)]==s:
+                tempcol.append(c)
+        # put data in temporary df and get dropna values
+        # more work may be required here to make sure this is working correctly
+        tempdf=x[tempcol]
+        tempdf=tempdf.dropna()
+        print(s)
+        # get 30 days of technicals and match with target
+        for i in range(n_period,tempdf.shape[0]):
+            # create fresh list to be populated below
+            x_list=[]
+            # add y_value
+            y_values.append(tempdf.iloc[i-1,12])
+            # get slice of features
+            x_slice=tempdf.iloc[(i-n_period):i,:12]
+            # loop through each of 30 days and append list of technicals
+            for r in range(x_slice.shape[0]):
+                x_list.append(x_slice.iloc[r].to_list())
+            # append the 30 day by 12 technical idicator to be matched with y_value
+            x_values.append(x_list)    
+
+    return np.array(y_values).reshape(-1,1),np.array(x_values)
+
+
+
+
+
+# utility to export features for a stock to csv to play around in excel and validate results
+def get_stock_csv(df,stock,features,path=r"C:\Users\Alex\Desktop\Stock-Prediction-LSTM\\"):
+    stockdf=df.copy()
+    cols=[]
+    for c in stockdf.columns:
+        if stock in c:
+            cols.append(c)
+    
+    res=stockdf[cols]
+    res.to_csv(path+stock+'.csv')
