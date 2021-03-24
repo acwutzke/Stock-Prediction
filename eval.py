@@ -7,10 +7,9 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 import pickle
 from eval_functions import *
+import configuration
 
-
-
-model_name=input("Input the name of the model you would like to test: ")
+model_name=configuration.eval_model_name
 
 try:
 	model = pickle.load(open("models/"+model_name+".pickle.dat", "rb"))
@@ -36,13 +35,16 @@ for p in pred:
   predyes.append(p[1])
 
 # plot ROC AUC score
-# plot_roc_auc(model,x_test,y_test)
+if configuration.show_auc_roc_curve:
+	plot_roc_auc(model,x_test,y_test)
 
 # plot precision, recall, and average gain for range of confidence levels
-# plot_precision_recall(pred,y_test,extra_test)
+if configuration.show_prec_recall:
+	plot_precision_recall(pred,y_test,extra_test)
 
-# 
-plot_backtest(extra_test,pred,confidence=0.8,n_positions=5, start_cash=100000,index='XIU.TO',title='TITLE')
+if configuration.show_backtest:
+	plot_backtest(extra_test,pred,confidence=configuration.backtest_conf,n_positions=configuration.backtest_max_positions,
+			 start_cash=configuration.backtest_cash,index=configuration.backtest_index,title=configuration.backtest_title)
 
 
 

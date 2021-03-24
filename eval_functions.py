@@ -194,7 +194,7 @@ def plot_backtest(val_data,pred,confidence=0.2,n_positions=5, start_cash=100000,
   plt.ylabel('Portfolio value', fontsize=24)
   plt.plot(dates,total_hist, label='Portfolio')
   plt.plot(bench_date,bench_value, label='Index performance ('+index+')')
-  plt.legend(loc="upper left", fontsize=24)
+  plt.legend(loc="upper left", fontsize=14)
   plt.tick_params(axis='both', which='major', labelsize=16)
   plt.tick_params(axis='both', which='minor', labelsize=8)
   plt.show()

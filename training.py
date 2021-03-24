@@ -7,15 +7,28 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 from xgb_functions import *
+import configuration
 
+# import variables from config file
+ticker_file=configuration.ticker_list_file
+exchange=configuration.ticker_exchange
+n=configuration.ticker_sample_size
+col_name=configuration.ticker_col_name
+train_start=configuration.training_data_start
+train_end=configuration.training_data_end
+test_start=configuration.test_data_start
+test_end=configuration.test_data_end
+save_model=configuration.save_model
+model_name=configuration.model_name
+index_ticker=configuration.index
 
 # get list of tickers from csv
-tickerlist=get_samples(file='ticker_lists/TOPTSX.csv',n=10,col_name='SYM')
+tickerlist=get_samples(file=ticker_file,n=n,col_name=col_name)
 
 # download data from yfinance
 # IMPORTANT - remove 
-train_data=get_data(tickerlist,exchange='.TO',start='2015-01-01',end='2019-12-31')
-test_data=get_data(tickerlist,exchange='.TO',start='2019-10-01',end='2021-03-22')
+train_data=get_data(tickerlist,exchange=exchange,start=train_start,end=train_end)
+test_data=get_data(tickerlist,exchange=exchange,start=test_start,end=test_end)
 
 # add technical indicators and target to training data
 traindf=SMA(train_data,10)
@@ -24,7 +37,7 @@ traindf=RSI(traindf,14)
 traindf=MACD(traindf,10,30)
 traindf=MACD(traindf,5,10)
 traindf=MACDiff(traindf,5)
-traindf=index(traindf,index='SPY',days=30)
+traindf=index(traindf,index=index_ticker,days=30)
 traindf=set_target(traindf,10)
 
 # add technical indicators and target to test data
@@ -34,7 +47,7 @@ testdf=RSI(testdf,14)
 testdf=MACD(testdf,10,30)
 testdf=MACD(testdf,5,10)
 testdf=MACDiff(testdf,5)
-testdf=index(testdf,index='SPY',days=30)
+testdf=index(testdf,index=index_ticker,days=30)
 testdf=set_target(testdf,10)
 
 # specify features to use and generate train and test sets
@@ -65,13 +78,11 @@ model.fit(x_train,y_train)
 print('Training accuracy:',model.score(x_train,y_train))
 print('Test accuracy:',model.score(x_test,y_test))
 
-# save model and xtrain data for further testing
-resp=input("Would you like to save you model [y/n] (you must have pickle installed): ")
 	
-if resp=='y':
+if save_model:
 	import pickle
 	from numpy import save
-	file_name=input("What would you like to call your model?: ")
+	file_name=model_name
 	pickle.dump(model, open("models/"+file_name+".pickle.dat", "wb"))
 	save("models/"+file_name+"_x_test.npy",x_test)
 	save("models/"+file_name+"_y_test.npy",y_test)

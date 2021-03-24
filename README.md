@@ -1,6 +1,4 @@
-# Stock-Prediction-LSTM
-LSTM model to predict stock prices on the TSX
+# Stock-Prediction
 
-git add *
-git commit -m "message"
-git push origin main
+## XGBoost model to predict stock prices on the TSX
+
