@@ -19,10 +19,10 @@ This file contains variables used in other `training.py` and `eval.py` scripts. 
 
 ### **Training variables:**
 
-**ticker_list_file** : *string, default='ticker_lists/TOPTSX.csv'* n\
-	Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT)
-	Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists.
-	You create and use your own ticker list if you choose.
+**ticker_list_file** : *string, default='ticker_lists/TOPTSX.csv'* \
+&nbsp;&nbsp;&nbsp;Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT)
+&nbsp;&nbsp;&nbsp;Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists.
+&nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose.
 
 ### ticker_exchange : *string, default=''*
   Suffix for stocks on exchanges outside of the US. For example, use '.TO' for stocks on the Toronto Stock Exchange (TSX).
