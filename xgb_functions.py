@@ -350,9 +350,11 @@ def df_cleanup(df):
 def get_samples(file='TSX-Tickers.csv',n='all',col_name='SYM'):
     if n!='all':
         df=pd.read_csv(file)
-        df=df.sample(n)
-        df=df.dropna()
-        return df[col_name].tolist()
+        if n>len(df[col_name]):
+            n=len(df[col_name])
+            df=df.sample(n)
+            df=df.dropna()
+            return df[col_name].tolist()
 
     df=pd.read_csv(file)
     df=df.dropna()

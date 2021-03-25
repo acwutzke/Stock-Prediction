@@ -4,7 +4,7 @@
 
 ticker_list_file='ticker_lists/US_METALS.csv'
 ticker_exchange='' # leave blank unless downloading TSX stocks ('.TO')
-ticker_sample_size=30
+ticker_sample_size='all'
 ticker_col_name='SYM'
 
 
