@@ -10,7 +10,7 @@ Stock prediction using XGBoost! This project attempts to classify stocks that wi
 ## Project Structure
 - `configuration.py` : location to specify global variables used in `training.py` and `eval.py` scripts.
 - `training.py` : script to train a model based on the variables set in `configuration.py`.
-- `eval.py` : script to give AUC/ROC curve, precision, recall, average gain, and chart backtest performance agains benchmark.
+- `eval.py` : script to give AUC/ROC curve, precision, recall, average gain, and chart backtest performance against benchmark.
 - `xgb_functions.py` and `eval_functions.py` contain supporting functions that are used in other scripts.
 
 ## `configuration.py`

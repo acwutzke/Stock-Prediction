@@ -26,7 +26,6 @@ index_ticker=configuration.index
 tickerlist=get_samples(file=ticker_file,n=n,col_name=col_name)
 
 # download data from yfinance
-# IMPORTANT - remove 
 train_data=get_data(tickerlist,exchange=exchange,start=train_start,end=train_end)
 test_data=get_data(tickerlist,exchange=exchange,start=test_start,end=test_end)
 

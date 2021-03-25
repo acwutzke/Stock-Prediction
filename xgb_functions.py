@@ -139,6 +139,7 @@ def index(df,index='SPY',exchange='',days=30):
 
 def generate_xgb_set(df,features=[]):
   stocks=[]
+  ticker_errors=[]
   for c in df.columns:
     if '_' not in c and c!='Date':
       stocks.append(c)
@@ -173,8 +174,12 @@ def generate_xgb_set(df,features=[]):
       dftotal=tempdf
       first+=1
     else:
+      try:
+        dftotal=dftotal.append(tempdf)
+      except:
+        ticker_errors.append(s)
+        continue
 
-      dftotal=dftotal.append(tempdf)
 
   return dftotal
 

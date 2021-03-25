@@ -2,7 +2,7 @@
 
 #### Training.py parameters ####
 
-ticker_list_file='ticker_lists/US_METALS.csv'
+ticker_list_file='ticker_lists/US_SMALL_TECH.csv'
 ticker_exchange='' # leave blank unless downloading TSX stocks ('.TO')
 ticker_sample_size='all'
 ticker_col_name='SYM'
@@ -16,7 +16,7 @@ test_data_end='2021-03-20'
 
 # choose whether to save the model - will be saved in models folder
 save_model=True
-model_name='US_METALS_model'
+model_name='US_TECH_model'
 
 # to change change index with which to generate features and evaluate performance
 index='SPY'
@@ -24,7 +24,7 @@ index='SPY'
 #### eval.py parameters ####
 
 # name of model you would like to evaluate
-eval_model_name=model_name
+eval_model_name='US_TECH_model'
 
 show_auc_roc_curve=False
 show_prec_recall=False
@@ -36,3 +36,8 @@ backtest_max_positions=10
 backtest_cash=100000
 backtest_index='SPY'
 backtest_title='Backtest Results'
+
+#### prediction.py paramters ####
+
+pred_model_name='US_TECH_model'
+n_picks=5
