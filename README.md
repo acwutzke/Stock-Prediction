@@ -17,14 +17,14 @@ Stock prediction using XGBoost! This project attempts to classify stocks that wi
 
 This file contains variables used in `training.py` and `eval.py` scripts. It has the following variables:
 
-### **Training variables:**
+### **Training variables (used in training.py):**
 
 **ticker_list_file** : *string, default='ticker_lists/TOPTSX.csv'* \
 &nbsp;&nbsp;&nbsp;Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT). \
 &nbsp;&nbsp;&nbsp;Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists. \
 &nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose. 
 
-**ticker_exchange** : *string, default=''* \
+**ticker_exchange** : *string, default=""* \
 &nbsp;&nbsp;&nbsp;Suffix for stocks on exchanges outside of the US. For example, use '.TO' for stocks on the Toronto Stock Exchange (TSX).\
 &nbsp;&nbsp;&nbsp;Leave blank unless downloading TSX stocks ('.TO') 
 
@@ -57,7 +57,7 @@ This file contains variables used in `training.py` and `eval.py` scripts. It has
 &nbsp;&nbsp;&nbsp;'SPY' is the symbol for S&P 500 which represents the overall performance of the market.\
 &nbsp;&nbsp;&nbsp;If training a model on a specific industry, an industry specific index may be more appropriate.
 
-### **Evaluation variables**
+### **Evaluation variables (used in eval.py):**
 
 **eval_model_name** : *string, default='test_model'*\
 &nbsp;&nbsp;&nbsp;Specify model to be evaluated.\
@@ -74,7 +74,7 @@ This file contains variables used in `training.py` and `eval.py` scripts. It has
 &nbsp;&nbsp;&nbsp;if stocks were purchased based on model predictions. For example if backtest_conf = 0.5 and \
 &nbsp;&nbsp;&nbsp;backtest_max_positions = 5 the model will purchase up to 5 stocks provided that the model prediction \
 &nbsp;&nbsp;&nbsp;probability is over 0.5. If there are more than 5 stocks with a model prediction over 0.5, the stocks \
-&nbsp;&nbsp;&nbsp;with the highest prediciton probability are purchased. After 10 trading days, regardless of performance   
+&nbsp;&nbsp;&nbsp;with the highest prediciton probability are purchased. After 10 trading days, regardless of performance,   
 &nbsp;&nbsp;&nbsp;stocks previously purchased are sold with a gain or loss, and new stocks are purchased. 
 
 **show_backtest** : *bool, default=True*\
