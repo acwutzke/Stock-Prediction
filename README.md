@@ -13,81 +13,81 @@ Stock prediction using XGBoost! This project attempts to classify stocks that wi
 - `eval.py` : script to give AUC/ROC curve, precision, recall, average gain, and chart backtest performance agains benchmark.
 - `xgb_functions.py` and `eval_functions.py` contain supporting functions that are used in other scripts.
 
-## `configuration.py`
+### `configuration.py`
 
 This file contains variables used in other `training.py` and `eval.py` scripts. It has the following variables:
 
-### **Training variables:**
+## **Training variables:**
 
 **ticker_list_file** : *string, default='ticker_lists/TOPTSX.csv'* \
-&nbsp;&nbsp;&nbsp;Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT)
-&nbsp;&nbsp;&nbsp;Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists.
-&nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose.
+&nbsp;&nbsp;&nbsp;Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT). \
+&nbsp;&nbsp;&nbsp;Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists. \
+&nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose. \
 
-### ticker_exchange : *string, default=''*
-  Suffix for stocks on exchanges outside of the US. For example, use '.TO' for stocks on the Toronto Stock Exchange (TSX).
-  Leave blank unless downloading TSX stocks ('.TO')
+**ticker_exchange** : *string, default=''* \
+&nbsp;&nbsp;&nbsp;Suffix for stocks on exchanges outside of the US. For example, use '.TO' for stocks on the Toronto Stock Exchange (TSX).\
+&nbsp;&nbsp;&nbsp;Leave blank unless downloading TSX stocks ('.TO') \
 
-### ticker_sample_size : *int, default='all'*
-  Must me an integer unless choosing 'all' stocks in ticker list.
+**ticker_sample_size** : *int, default='all'* \
+&nbsp;&nbsp;&nbsp;Must me an integer unless choosing 'all' stocks in ticker list.\
 
-### training_data_start : *string, default='2015-01-01'*
-	Start date of training data - must me in the format 'YYYY-MM-DD'
+**training_data_start** : *string, default='2015-01-01'* \
+&nbsp;&nbsp;&nbsp;Start date of training data - must me in the format 'YYYY-MM-DD'\
 
-### training_data_end: *string, default='2019-12-31'*
-	End date of training data - must me in the format 'YYYY-MM-DD'
+**training_data_end** : *string, default='2019-12-31'*\
+&nbsp;&nbsp;&nbsp;End date of training data - must me in the format 'YYYY-MM-DD'\
 
-### test_data_start= *string, default='2020-01-01'*
-	Start date of test data - must me in the format 'YYYY-MM-DD'
-	Note that the test data period should be different than the training data period.
+**test_data_start** : *string, default='2020-01-01'*
+&nbsp;&nbsp;&nbsp;Start date of test data - must me in the format 'YYYY-MM-DD'\
+&nbsp;&nbsp;&nbsp;Note that the test data period should be different than the training data period.\
 
-### test_data_end=*string, default='2021-03-20'*
-	End date of test data - must me in the format 'YYYY-MM-DD'
-	Note that the test data period should be different than the training data period.
+**test_data_end** : *string, default='2021-03-20'*\
+&nbsp;&nbsp;&nbsp;End date of test data - must me in the format 'YYYY-MM-DD'\
+&nbsp;&nbsp;&nbsp;Note that the test data period should be different than the training data period.\
 
-### save_model : *bool, default=True*
-	Determines whether the model created will be saved after training.
-	Models will be saved to the models/ folder.
+**save_model** : *bool, default=True*\
+&nbsp;&nbsp;&nbsp;Determines whether the model created will be saved after training.\
+&nbsp;&nbsp;&nbsp;Models will be saved to the models/ folder.\
 
-### model_name : *string, default='test_model'*
-	Name model will be saved with.
+**model_name** : *string, default='test_model'*\
+&nbsp;&nbsp;&nbsp;Name model will be saved with.\
 
-### index : *string, default='SPY'*
-	Choose index related to the ticker list for feature calculation and evaluation.
-	'SPY' is the symbol for S&P 500 which represents the overall performance of the market.
-	If training a model on a specific industry, an industry specific index may be more appropriate.
+**index** : *string, default='SPY'*\
+&nbsp;&nbsp;&nbsp;Choose index related to the ticker list for feature calculation and evaluation.\
+&nbsp;&nbsp;&nbsp;'SPY' is the symbol for S&P 500 which represents the overall performance of the market.\
+&nbsp;&nbsp;&nbsp;If training a model on a specific industry, an industry specific index may be more appropriate.\
 
 ### **Evaluation variables**
 
-### eval_model_name : *string, default='test_model'*
-	Specify model to be evaluated.
-	Model must me located in the models/ folder.
+**eval_model_name** : *string, default='test_model'*\
+&nbsp;&nbsp;&nbsp;Specify model to be evaluated.\
+&nbsp;&nbsp;&nbsp;Model must me located in the models/ folder.\
 
-### show_auc_roc_curve : *bool, default=False*
-	Specify whether to show AUC ROC curve.
+**show_auc_roc_curve** : *bool, default=False*\
+&nbsp;&nbsp;&nbsp;Specify whether to show AUC ROC curve.\
 
-### show_prec_recall : *bool, default=False*
-	Specify whether to show precision recall information.
+**show_prec_recall** : *bool, default=False*\
+&nbsp;&nbsp;&nbsp;Specify whether to show precision recall information.\
 
-### **Backtest**
-	Backtest uses predictions generated by the model to simulate how a portfolio would have performed if stocks
-	were purchased based on model predictions. For example if backtest_conf = 0.5 and backtest_max_positions = 5
-	the model will purchase up to 5 stocks provided that the model prediction probability is over 0.5. If there are 
-	more than 5 stocks with a model prediction over 0.5, the stocks with the highest prediciton probability are 
-	purchased. After 10 trading days, regardless of performance, stocks previously purchased are sold with a gain
-	or loss, and new stocks are purchased.
+### **Backtest**\
+&nbsp;&nbsp;&nbsp;Backtest uses predictions generated by the model to simulate how a portfolio would have performed if stocks\
+&nbsp;&nbsp;&nbsp;were purchased based on model predictions. For example if backtest_conf = 0.5 and backtest_max_positions = 5\
+&nbsp;&nbsp;&nbsp;the model will purchase up to 5 stocks provided that the model prediction probability is over 0.5. If there are\
+&nbsp;&nbsp;&nbsp;more than 5 stocks with a model prediction over 0.5, the stocks with the highest prediciton probability are\ 
+&nbsp;&nbsp;&nbsp;purchased. After 10 trading days, regardless of performance, stocks previously purchased are sold with a gain\
+&nbsp;&nbsp;&nbsp;or loss, and new stocks are purchased.\
 
-### show_backtest: *bool, default=True*
-	Specify whether to perform backtest.
+**show_backtest** : *bool, default=True*\
+&nbsp;&nbsp;&nbsp;Specify whether to perform backtest.\
 
-### backtest_conf : *float, default=0.5*
-	Minimum confidence level necessary for a stock to be purchased.
-### backtest_max_positions : *int, default=5*
-	Max number of stocks that will be held at any given time during the backtest.
-### backtest_cash : *int, float, default=100000*
-	Starting hypothetical cash for back test.
-### backtest_index : *string, default='SPY'*
-	Index to be used as a benchmark to compare model portfolio performance.
-### backtest_title : *string, default='Backtest Result'*
+**backtest_conf** : *float, default=0.5*\
+&nbsp;&nbsp;&nbsp;Minimum confidence level necessary for a stock to be purchased.\
+**backtest_max_positions** : *int, default=5*\
+&nbsp;&nbsp;&nbsp;Max number of stocks that will be held at any given time during the backtest.\
+**backtest_cash** : *int, float, default=100000*\
+&nbsp;&nbsp;&nbsp;Starting hypothetical cash for back test.\
+**backtest_index** : *string, default='SPY'*\
+&nbsp;&nbsp;&nbsp;Index to be used as a benchmark to compare model portfolio performance.\
+**backtest_title** : *string, default='Backtest Result'*\
 
 
