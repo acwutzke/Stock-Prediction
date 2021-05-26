@@ -7,7 +7,7 @@ from datetime import timedelta
 #####################################################################################################
 #####################################################################################################
 
-# simple moving average normalized by the current stock price at the current date
+# simple moving average normalized by the stock price at the current date
 def SMA(df, days): 
   for c in df.columns:
     if '_' not in c and 'Date' not in c:
@@ -75,7 +75,6 @@ def rsi_neg(x):
         return 0
 
 # MACD
-# 
 def MACD(df, day1, day2):
   for c in df.columns:
     if '_' not in c and 'Date' not in c:
@@ -354,9 +353,15 @@ def df_cleanup(df):
 # gets list of tickers to be fed into get data
 def get_samples(file='TSX-Tickers.csv',n='all',col_name='SYM'):
     if n!='all':
+        print("not all")
         df=pd.read_csv(file)
         if n>len(df[col_name]):
             n=len(df[col_name])
+            df=df.sample(n)
+            df=df.dropna()
+            return df[col_name].tolist()
+        else:
+            print("else")
             df=df.sample(n)
             df=df.dropna()
             return df[col_name].tolist()

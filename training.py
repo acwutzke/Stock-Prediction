@@ -38,6 +38,7 @@ traindf=MACD(traindf,5,10)
 traindf=MACDiff(traindf,5)
 traindf=index(traindf,index=index_ticker,days=30)
 traindf=set_target(traindf,10)
+print('Training set technicals calculated!')
 
 # add technical indicators and target to test data
 testdf=SMA(test_data,10)
@@ -48,6 +49,7 @@ testdf=MACD(testdf,5,10)
 testdf=MACDiff(testdf,5)
 testdf=index(testdf,index=index_ticker,days=30)
 testdf=set_target(testdf,10)
+print('Test set technicals calculated!')
 
 # specify features to use and generate train and test sets
 feat=['sma','rsi','fi','macd','index','y','target_gains']
@@ -58,7 +60,8 @@ testset=testset.dropna()
 print('Trainset columns:', trainset.columns)
 
 # Based on correlation with the target these are observed to be the best features
-best_feat=['_sma_10','_rsi_14','_fi_30','_macd_5_10','_macd_10_30_diff5','_index_SPY30']
+index_feat='_index_'+index_ticker+str(30)
+best_feat=['_sma_10','_rsi_14','_fi_30','_macd_5_10','_macd_10_30_diff5',index_feat]
 
 # dump train and test sets into numpy arrays for training
 x_train=trainset[best_feat].to_numpy()

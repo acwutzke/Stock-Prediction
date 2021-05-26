@@ -16,11 +16,6 @@ ticker_file=configuration.ticker_list_file
 exchange=configuration.ticker_exchange
 n=configuration.ticker_sample_size
 col_name=configuration.ticker_col_name
-train_start=configuration.training_data_start
-train_end=configuration.training_data_end
-test_start=configuration.test_data_start
-test_end=configuration.test_data_end
-save_model=configuration.save_model
 model_name=configuration.model_name
 index_ticker=configuration.index
 

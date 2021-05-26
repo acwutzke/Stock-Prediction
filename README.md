@@ -6,11 +6,13 @@ Stock prediction using XGBoost! This project attempts to classify stocks that wi
 - pandas, numpy, datetime, matplotlib
 - xgboost
 - sklearn
+- yfinance (for stock price collection)
 
 ## Project Structure
 - `configuration.py` : location to specify global variables used in `training.py` and `eval.py` scripts.
 - `training.py` : script to train a model based on the variables set in `configuration.py`.
 - `eval.py` : script to give AUC/ROC curve, precision, recall, average gain, and chart backtest performance against benchmark.
+- `predictions.py` : get top five model predictions from a given list of tickers as of the present moment.
 - `xgb_functions.py` and `eval_functions.py` contain supporting functions that are used in other scripts.
 
 ## `configuration.py`
@@ -22,14 +24,15 @@ This file contains variables used in `training.py` and `eval.py` scripts. It has
 **ticker_list_file** : *string, default='ticker_lists/TOPTSX.csv'* \
 &nbsp;&nbsp;&nbsp;Specify the name of the ticker list which is a CSV file holding a list of stock symbols (ex. AAPL, TSLA, MSFT). \
 &nbsp;&nbsp;&nbsp;Several ticker lists are included in the ticker_lists/ folder. See below for more information about these lists. \
-&nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose. 
+&nbsp;&nbsp;&nbsp;You create and use your own ticker list if you choose. \
+&nbsp;&nbsp;&nbsp;Note, tickers are downloaded from Yahoo Finance. 
 
 **ticker_exchange** : *string, default=""* \
 &nbsp;&nbsp;&nbsp;Suffix for stocks on exchanges outside of the US. For example, use '.TO' for stocks on the Toronto Stock Exchange (TSX).\
 &nbsp;&nbsp;&nbsp;Leave blank unless downloading TSX stocks ('.TO') 
 
 **ticker_sample_size** : *int, default='all'* \
-&nbsp;&nbsp;&nbsp;Must me an integer unless choosing 'all' stocks in ticker list.
+&nbsp;&nbsp;&nbsp;Must be an integer unless choosing 'all' stocks in ticker list.
 
 **training_data_start** : *string, default='2015-01-01'* \
 &nbsp;&nbsp;&nbsp;Start date of training data - must me in the format 'YYYY-MM-DD'
@@ -55,7 +58,9 @@ This file contains variables used in `training.py` and `eval.py` scripts. It has
 **index** : *string, default='SPY'*\
 &nbsp;&nbsp;&nbsp;Choose index related to the ticker list for feature calculation and evaluation.\
 &nbsp;&nbsp;&nbsp;'SPY' is the symbol for S&P 500 which represents the overall performance of the market.\
-&nbsp;&nbsp;&nbsp;If training a model on a specific industry, an industry specific index may be more appropriate.
+&nbsp;&nbsp;&nbsp;If training a model on a specific industry, an industry specific index may be more appropriate.\
+&nbsp;&nbsp;&nbsp;Note, index information is downloaded from Yahoo Finance, please check the website to ensure the \
+&nbsp;&nbsp;&nbsp;index value provided is available on Yahoo Finance.
 
 ### **Evaluation variables (used in eval.py):**
 
@@ -95,4 +100,16 @@ This file contains variables used in `training.py` and `eval.py` scripts. It has
 **backtest_title** : *string, default='Backtest Result'*\
 &nbsp;&nbsp;&nbsp;Set title of backtest chart.
 
+### **Prediction variables (used in predictions.py):**
 
+**pred_ticker_file** : *string, example='ticker_lists/US_SMALL_TECH.csv'*\
+&nbsp;&nbsp;&nbsp;List of tickers to make predictions on.
+
+**pred_col_name**  : *string, default='SYM'*\
+&nbsp;&nbsp;&nbsp;Name of columns in the pred_ticker_file
+
+**pred_model_name** : *string, example='US_TECH_model'*\
+&nbsp;&nbsp;&nbsp;Name of the model to use to make predictions.
+
+**n_picks** : *int, default=5*\
+&nbsp;&nbsp;&nbsp;How many predictions to return. 5 returns the top 5 predictions.
