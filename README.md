@@ -1,4 +1,4 @@
-# XGBoost Stock Price Prediction
+# Stock Prediction using XGBoost
 
 Stock prediction using XGBoost! This project attempts to classify stocks that will go up by more than 5% in the next 10 days.
 
